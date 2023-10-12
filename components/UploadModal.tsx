@@ -1,6 +1,7 @@
 "use client"
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/modal";
 import { Button } from "@nextui-org/button";
+import { Input } from "@nextui-org/input";
 import upload from "./uploadFile";
 
 export default function App() {
@@ -16,12 +17,15 @@ export default function App() {
                         <>
                             <form action={upload}>
                             <ModalHeader className="flex flex-col gap-1">Upload File</ModalHeader>
-                                <input type="file" name="file" />                                
+                            <Input isClearable className="p-2" variant="bordered" type="file" name="file" />                                
+                            <Input isClearable className="p-2" variant="bordered" name="name" placeholder="Name" />
+                            <Input isClearable className="p-2" variant="bordered" name="description" placeholder="Description" />
+                            <Input isClearable className="p-2" variant="bordered" name="tags" placeholder="Tags (comma separated)" />
                             <ModalFooter>
                                 <Button color="danger" variant="light" onPress={onClose}>
                                     Close
                                 </Button>
-                                <Button color="primary" type="submit">
+                                <Button color="primary" type="submit" onPress={onClose}>
                                     Action
                                 </Button>
                             </ModalFooter>
