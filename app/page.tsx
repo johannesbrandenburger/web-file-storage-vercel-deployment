@@ -1,15 +1,16 @@
-import NextLink from "next/link";
-import { Link } from "@nextui-org/link";
-import { Snippet } from "@nextui-org/snippet";
-import { Code } from "@nextui-org/code"
-import { button as buttonStyles } from "@nextui-org/theme";
-import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
 import { MongoClient } from 'mongodb';
 // import {  Table,  TableHeader,  TableBody,  TableColumn,  TableRow,  TableCell} from "@nextui-org/react";
 import { Button } from "@nextui-org/button";
-import DownloadFileButton from "./DownloadFileButton/page";
+import {
+	Modal, 
+	ModalContent, 
+	ModalHeader, 
+	ModalBody, 
+	ModalFooter
+  } from "@nextui-org/modal";
+
+import DownloadFileButton from "@/components/DownloadFileButton";
+import UploadModal from '@/components/UploadModal';
 
 // get all documents from mongodb collection
 export async function getFiles() {
@@ -66,6 +67,7 @@ export default async function Home() {
 					<DownloadFileButton fileUuid={file.fileUuid} filename={file.filename} />
 				</div>
 			)}
+		<UploadModal />
 		</section>
 	);
 }
