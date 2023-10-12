@@ -1,7 +1,8 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient } from "mongodb";
+import { v4 as uuidv4 } from "uuid";
 
 // create a new MongoClient
-let url = 'mongodb://localhost/web-file-storage';
+let url = "mongodb://localhost/web-file-storage";
 let client = new MongoClient(url);
 
 // main function
@@ -10,28 +11,41 @@ async function createDb() {
 
         // wait for the connection to establish
         await client.connect();
-        console.log('Connected to MongoDB');
+        console.log("Connected to MongoDB");
 
         // create a new database
-        let db = client.db('web-file-storage');
+        let db = client.db("web-file-storage");
         
         // create a new collection
-        let collection = db.collection('files');
+        let collection = db.collection("files");
 
         // delete all documents in the collection
         let deleteResult = await collection.deleteMany({});
-        console.log('Deleted documents:', deleteResult.deletedCount);
+        console.log("Deleted documents:", deleteResult.deletedCount);
 
         // insert a few documents
         let insertResult = await collection.insertMany([
-            { name: 'file1', content: 'content1' },
-            { name: 'file2', content: 'content2' },
-            { name: 'file3', content: 'content3' }
+            {
+                name: "First Test File",
+                filename: "Testfile.txt",
+                fileUuid: uuidv4(),
+                description: "This is a test file",
+                tags: ["test", "file"],
+                creationDate: new Date(),
+            },
+            {
+                name: "Second Test File",
+                filename: "Testfile.txt",
+                fileUuid: uuidv4(),
+                description: "This is another test file",
+                tags: ["test", "file"],
+                creationDate: new Date(),
+            },
         ]);
-        
+
         // get all documents in the collection
         let docs = await collection.find().toArray();
-        console.log('Found documents:', docs);
+        console.log("Found documents:", docs);
     }
 
     catch (err) {
@@ -41,7 +55,7 @@ async function createDb() {
     finally {
         // close the connection
         await client.close();
-        console.log('Closed connection to MongoDB');
+        console.log("Closed connection to MongoDB");
     }
 }
 
