@@ -32,7 +32,7 @@ export async function getFiles() {
 
         // get all documents in the collection
 		// get name, filename, fileUuid, description, tags and creationDate
-		let docs = await collection.find({}).toArray();
+		let docs = await collection.find({ $text: { $search: "File"}}).toArray();
         console.log('Found documents:', docs);
 		
 		return docs;
@@ -54,6 +54,7 @@ export default async function Home() {
 	const files = await getFiles()
 	return (
 		<section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+			<input type="text" placeholder="Search..." />
 			{files?.map((file) => 
 				<div key={file.fileUuid} className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
 					<div>{file.filename}</div>
