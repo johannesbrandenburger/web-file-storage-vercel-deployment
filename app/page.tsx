@@ -8,7 +8,11 @@ export async function getFiles() {
 	let client = await accessMongoDB();
 	const db = client?.db('web-file-storage');
 	const collection = db?.collection('files');
-	const files = await collection?.find({}).toArray();
+
+	// get all files from mongodb collection
+	// sorted by creationDate in descending order
+	// limit to 10 files
+	const files = await collection?.find({}).sort({ creationDate: -1 }).limit(10).toArray();
 	console.log(files);
 	client?.close();
 	return files;
