@@ -6,8 +6,49 @@ import { button as buttonStyles } from "@nextui-org/theme";
 import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";
 import { GithubIcon } from "@/components/icons";
+import { MongoClient } from 'mongodb';
 
-export default function Home() {
+// get all documents from mongodb collection
+export async function getData() {
+
+	// create a new MongoClient
+	let url = 'mongodb://localhost/web-file-storage';
+	let client = new MongoClient(url);
+
+	try {
+
+        // wait for the connection to establish
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        // create a new database
+        let db = client.db('web-file-storage');
+        
+        // create a new collection
+        let collection = db.collection('files');
+
+        // get all documents in the collection
+        let docs = await collection.find().toArray();
+        console.log('Found documents:', docs);
+		console.log(docs[0].name);
+		return docs.reduce((acc, cur) => acc + cur.name + " ", "");
+    }
+
+    catch (err: any) {
+        console.log(err.stack);
+    }
+
+    finally {
+        // close the connection
+        await client.close();
+        console.log('Closed connection to MongoDB');
+    }
+
+}
+
+export default async function Home() {
+	const data = await getData()
+
 	return (
 		<section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
 			<div className="inline-block max-w-lg text-center justify-center">
@@ -49,6 +90,8 @@ export default function Home() {
 					</span>
 				</Snippet>
 			</div>
+
+			{data}
 		</section>
 	);
 }

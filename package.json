@@ -30,15 +30,16 @@
     "eslint-config-next": "13.4.19",
     "framer-motion": "^10.16.2",
     "intl-messageformat": "^10.5.0",
+    "mongodb": "^6.1.0",
     "next": "13.4.19",
     "next-themes": "^0.2.1",
     "postcss": "8.4.29",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "sqlite": "^5.0.1",
+    "sqlite3": "^5.1.6",
     "tailwind-variants": "^0.1.13",
     "tailwindcss": "3.3.3",
-    "typescript": "5.0.4",
-    "sqlite": "^5.0.1",
-    "sqlite3": "^5.1.6"
+    "typescript": "5.0.4"
   }
 }

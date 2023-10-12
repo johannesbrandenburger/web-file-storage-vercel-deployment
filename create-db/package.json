@@ -1,0 +1,13 @@
+{
+  "name": "create-db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "create-db.js",
+  "type": "module",
+  "scripts": {
+    "create-db": "node create-db.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
