@@ -5,10 +5,14 @@ import { Dispatch, SetStateAction } from "react"
 
 export default function DownloadFileButton() {
     const router = useRouter();
+    let timeout: NodeJS.Timeout;
 
     return (
         <input type="text" placeholder="Search..." onChange={ e => {
-            router.push(`/?search=${e.target.value}`);
+            timeout && clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                router.push(`/?search=${e.target.value}`);
+            }, 500);
         }}/>
     )
 }
