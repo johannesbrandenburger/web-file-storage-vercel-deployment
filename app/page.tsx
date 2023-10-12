@@ -10,9 +10,11 @@ import { MongoClient } from 'mongodb';
 // import {  Table,  TableHeader,  TableBody,  TableColumn,  TableRow,  TableCell} from "@nextui-org/react";
 import { Button } from "@nextui-org/button";
 import DownloadFileButton from "./DownloadFileButton/page";
+import { useState } from "react";
+import SearchBar from "@/components/SearchBar";
 
 // get all documents from mongodb collection
-export async function getFiles() {
+export async function getFiles(search: string = "") {
 
 	// create a new MongoClient
 	let url = 'mongodb://localhost/web-file-storage';
@@ -32,7 +34,8 @@ export async function getFiles() {
 
         // get all documents in the collection
 		// get name, filename, fileUuid, description, tags and creationDate
-		let docs = await collection.find({ $text: { $search: "File"}}).toArray();
+		let docs = await collection.find({ $text: { $search: search}}).toArray();
+		
         console.log('Found documents:', docs);
 		
 		return docs;
@@ -50,11 +53,11 @@ export async function getFiles() {
 
 }
 
-export default async function Home() {
-	const files = await getFiles()
+export default async function Home({ searchParams }: { searchParams: string | undefined }) {
+	const files = await getFiles(searchParams?.search as string | undefined)
 	return (
 		<section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-			<input type="text" placeholder="Search..." />
+			<SearchBar />
 			{files?.map((file) => 
 				<div key={file.fileUuid} className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
 					<div>{file.filename}</div>
