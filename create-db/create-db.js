@@ -26,22 +26,22 @@ async function createDb() {
 
         // insert a few documents
         let insertResult = await collection.insertMany([
-            {
-                name: "First Test File",
-                filename: "Testfile.txt",
-                fileUuid: uuidv4(),
-                description: "This is a test file",
-                tags: ["test", "file"],
-                creationDate: new Date(),
-            },
-            {
-                name: "Second Test File",
-                filename: "Testfile.txt",
-                fileUuid: uuidv4(),
-                description: "This is another test file",
-                tags: ["test", "file"],
-                creationDate: new Date(),
-            },
+            // {
+            //     name: "First Test File",
+            //     filename: "Testfile.txt",
+            //     fileUuid: uuidv4(),
+            //     description: "This is a test file",
+            //     tags: ["test", "file"],
+            //     creationDate: new Date(),
+            // },
+            // {
+            //     name: "Second Test File",
+            //     filename: "Testfile.txt",
+            //     fileUuid: uuidv4(),
+            //     description: "This is another test file",
+            //     tags: ["test", "file"],
+            //     creationDate: new Date(),
+            // },
         ]);
 
         // get all documents in the collection

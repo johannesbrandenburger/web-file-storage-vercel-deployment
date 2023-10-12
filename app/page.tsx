@@ -1,56 +1,22 @@
-import NextLink from "next/link";
-import { Link } from "@nextui-org/link";
-import { Snippet } from "@nextui-org/snippet";
-import { Code } from "@nextui-org/code"
-import { button as buttonStyles } from "@nextui-org/theme";
-import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
-import { MongoClient } from 'mongodb';
-// import {  Table,  TableHeader,  TableBody,  TableColumn,  TableRow,  TableCell} from "@nextui-org/react";
-import { Button } from "@nextui-org/button";
-import DownloadFileButton from "./DownloadFileButton/page";
-import { useState } from "react";
+import DownloadFileButton from "@/components/DownloadFileButton";
 import SearchBar from "@/components/SearchBar";
+import UploadModal from '@/components/UploadModal';
+import accessMongoDB from '@/middleware/accessMongoDB';
 
 // get all documents from mongodb collection
 export async function getFiles(search: string = "") {
 
-	// create a new MongoClient
-	let url = 'mongodb://localhost/web-file-storage';
-	let client = new MongoClient(url);
+	let client = await accessMongoDB();
+	const db = client?.db('web-file-storage');
+	const collection = db?.collection('files');
 
-	try {
-
-        // wait for the connection to establish
-        await client.connect();
-        console.log('Connected to MongoDB');
-
-        // create a new database
-        let db = client.db('web-file-storage');
-        
-        // create a new collection
-        let collection = db.collection('files');
-
-        // get all documents in the collection
-		// get name, filename, fileUuid, description, tags and creationDate
-		let docs = await collection.find({ $text: { $search: search}}).toArray();
-		
-        console.log('Found documents:', docs);
-		
-		return docs;
-    }
-
-    catch (err: any) {
-        console.log(err.stack);
-    }
-
-    finally {
-        // close the connection
-        await client.close();
-        console.log('Closed connection to MongoDB');
-    }
-
+	// get all files from mongodb collection
+	// sorted by creationDate in descending order
+	// limit to 10 files
+	const files = await collection?.find({ $text: { $search: search}}).sort({ creationDate: -1 }).limit(10).toArray();
+	console.log(files);
+	client?.close();
+	return files;
 }
 
 export default async function Home({ searchParams }: { searchParams: string | undefined }) {
@@ -70,6 +36,7 @@ export default async function Home({ searchParams }: { searchParams: string | un
 					<DownloadFileButton fileUuid={file.fileUuid} filename={file.filename} />
 				</div>
 			)}
+		<UploadModal />
 		</section>
 	);
 }
