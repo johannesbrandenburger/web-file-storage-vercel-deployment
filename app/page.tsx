@@ -1,9 +1,10 @@
 import DownloadFileButton from "@/components/DownloadFileButton";
+import SearchBar from "@/components/SearchBar";
 import UploadModal from '@/components/UploadModal';
 import accessMongoDB from '@/middleware/accessMongoDB';
 
 // get all documents from mongodb collection
-export async function getFiles() {
+export async function getFiles(search: string = "") {
 
 	let client = await accessMongoDB();
 	const db = client?.db('web-file-storage');
@@ -12,16 +13,25 @@ export async function getFiles() {
 	// get all files from mongodb collection
 	// sorted by creationDate in descending order
 	// limit to 10 files
-	const files = await collection?.find({}).sort({ creationDate: -1 }).limit(10).toArray();
+
+	var find = null;
+	if (search.trim().length > 0) {
+		find = collection?.find({ $text: { $search: search}});
+	} else {
+		find = collection?.find({});
+	}
+	const files = await find?.sort({ creationDate: -1 }).limit(10).toArray();
 	console.log(files);
 	client?.close();
 	return files;
 }
 
-export default async function Home() {
-	const files = await getFiles()
+export default async function Home({ searchParams }: { searchParams: { search?: string } }) {
+	const search: string | undefined = searchParams?.search as string | undefined;
+	const files = await getFiles(search);
 	return (
 		<section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+			<SearchBar search={ search }/>
 			{files?.map((file) => 
 				<div key={file.fileUuid} className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
 					<div>{file.filename}</div>
