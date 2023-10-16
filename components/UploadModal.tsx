@@ -27,7 +27,7 @@ export default function App() {
                                     Close
                                 </Button>
                                 <Button color="primary" type="submit" onPress={onClose}>
-                                    Action
+                                    Upload
                                 </Button>
                             </ModalFooter>
                             </form>
