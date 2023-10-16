@@ -37,7 +37,7 @@ export default async function Home({ searchParams }: { searchParams: { search?: 
 
 	return (
 		<section className="flex flex-col items-center justify-center gap-3 py-5 md:py-2">
-			<h1 className={title()}>Web File Storage</h1>
+			<h1 className={title({ color: "yellow", size: "sm"})}>Web File Storage</h1>
 			<div className="flex flex-row items-center justify-center gap-2" style={{ width: "100%" }}>
 				<SearchBar search={search} />
 				<UploadModal />
