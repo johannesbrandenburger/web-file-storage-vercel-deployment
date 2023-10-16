@@ -22,7 +22,7 @@ export default function FileTable({ files }: { files: any[] }) {
                         <TableCell>{file.tags.join(", ")}</TableCell>
                         <TableCell>{file.creationDate.toString()}</TableCell>
                         <TableCell>
-                            <DownloadFileButton fileUuid={file.uuid} filename={file.filename} />
+                            <DownloadFileButton fileUuid={file.fileUuid} filename={file.filename} />
                         </TableCell>
                     </TableRow>
                 ))}
