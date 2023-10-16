@@ -13,7 +13,14 @@ export async function getFiles(search: string = "") {
 	// get all files from mongodb collection
 	// sorted by creationDate in descending order
 	// limit to 10 files
-	const files = await collection?.find({ $text: { $search: search}}).sort({ creationDate: -1 }).limit(10).toArray();
+
+	var find = null;
+	if (search.trim().length > 0) {
+		find = collection?.find({ $text: { $search: search}});
+	} else {
+		find = collection?.find({});
+	}
+	const files = await find?.sort({ creationDate: -1 }).limit(10).toArray();
 	console.log(files);
 	client?.close();
 	return files;
