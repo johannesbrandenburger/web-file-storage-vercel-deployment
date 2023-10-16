@@ -16,7 +16,7 @@ export default function FileTable({ files }: { files: any[] }) {
             </TableHeader>
             <TableBody>
                 {files?.map((file: any) => (
-                    <TableRow key={file.uuid}>
+                    <TableRow key={file.fileUuid}>
                         <TableCell>{file.name}</TableCell>
                         <TableCell>{file.description}</TableCell>
                         <TableCell>{file.tags.join(", ")}</TableCell>
