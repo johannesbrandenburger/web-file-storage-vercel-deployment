@@ -1,12 +1,12 @@
 {
-  "name": "next-app-template",
-  "version": "0.0.1",
+  "name": "web-file-storage",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "npm i && next start",
+    "create-db": "node create-db/create-db.js"
   },
   "dependencies": {
     "@nextui-org/button": "2.0.18",

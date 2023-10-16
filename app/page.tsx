@@ -6,9 +6,8 @@ import { title } from "@/components/primitives";
 import accessMongoDB from '@/middleware/accessMongoDB';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue } from "@nextui-org/table";
 
-
 // get all documents from mongodb collection
-export async function getFiles(search: string = "") {
+async function getFiles(search: string = "") {
 
 	let client = await accessMongoDB();
 	const db = client?.db('web-file-storage');
@@ -45,7 +44,4 @@ export default async function Home({ searchParams }: { searchParams: { search?: 
 			<FileTable files={files}></FileTable>
 		</section>
 	);
-}
-
-const downloadFile = async (fileUuid: string) => {
 }
