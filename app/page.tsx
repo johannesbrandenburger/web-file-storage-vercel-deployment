@@ -26,11 +26,12 @@ export async function getFiles(search: string = "") {
 	return files;
 }
 
-export default async function Home({ searchParams }: { searchParams: string | undefined }) {
-	const files = await getFiles(searchParams?.search as string | undefined)
+export default async function Home({ searchParams }: { searchParams: { search?: string } }) {
+	const search: string | undefined = searchParams?.search as string | undefined;
+	const files = await getFiles(search);
 	return (
 		<section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-			<SearchBar />
+			<SearchBar search={ search }/>
 			{files?.map((file) => 
 				<div key={file.fileUuid} className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
 					<div>{file.filename}</div>
