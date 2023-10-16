@@ -3,6 +3,7 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import upload from "./uploadFile";
+import { title } from "./primitives";
 
 export default function App() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -10,7 +11,7 @@ export default function App() {
 
     return (
         <>
-            <Button onPress={onOpen}>Open Modal</Button>
+            <Button onPress={onOpen} color="primary">Upload File</Button>
             <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
                     {(onClose: () => void) => (

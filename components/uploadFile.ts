@@ -3,6 +3,8 @@ import { writeFile } from 'fs/promises'
 import { join } from 'path'
 import { v4 } from 'uuid'
 import accessMongoDB from '@/middleware/accessMongoDB';
+import { useRouter } from 'next/router';   
+import { redirect } from 'next/navigation'
 
 export default async function upload(data: FormData) {
 
@@ -50,5 +52,6 @@ export default async function upload(data: FormData) {
 
     console.log(`open ${path} to see the uploaded file`);
 
-    return { success: true };
+    // reload the page to see the new file
+    redirect('/'); 
 }
