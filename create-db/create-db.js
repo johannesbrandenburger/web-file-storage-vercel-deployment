@@ -18,7 +18,6 @@ async function createDb() {
         
         // create a new collection with a schema
         let collection = db.collection("files");
-        collection.createIndex({ name: "text", filename: "text", description: "text", tags: "text" });
 
         // delete all documents in the collection
         let deleteResult = await collection.deleteMany({});
