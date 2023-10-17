@@ -1,7 +1,5 @@
 # Web File Storage
 
-This is a template for creating applications using Next.js 13 (app directory) and NextUI (v2).
-
 ## Operating Systems
 
 - Ubuntu 22.04
