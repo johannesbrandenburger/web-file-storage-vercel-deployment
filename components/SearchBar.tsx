@@ -48,6 +48,7 @@ export default function DownloadFileButton({ search }: { search: string | undefi
                         }
                     }, 500);
                 }}
+                onClear={() => {router.push(`/`)}}
             />
         </>
     )
