@@ -9,6 +9,7 @@
     "create-db": "node create-db/create-db.js"
   },
   "dependencies": {
+    "@azure/storage-blob": "^12.16.0",
     "@nextui-org/button": "2.0.18",
     "@nextui-org/code": "2.0.16",
     "@nextui-org/input": "2.1.6",
