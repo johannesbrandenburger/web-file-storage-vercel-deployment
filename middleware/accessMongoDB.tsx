@@ -4,7 +4,7 @@ import { MongoClient } from 'mongodb';
 export default async function accessMongoDB() {
 
     // create a new MongoClient
-	let url = 'mongodb://localhost/web-file-storage';
+	let url = process.env.MONGODB_URI || "mongodb://localhost/web-file-storage";
 	let client = new MongoClient(url);
 
 	try {
