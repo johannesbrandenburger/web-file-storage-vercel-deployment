@@ -1,10 +1,9 @@
 'use server'
-import { writeFile } from 'fs/promises'
-import { join } from 'path'
 import { v4 } from 'uuid'
 import accessMongoDB from '@/middleware/accessMongoDB';
-import { useRouter } from 'next/router';   
 import { redirect } from 'next/navigation'
+import { BlockBlobClient } from '@azure/storage-blob';
+import getStream from 'into-stream';
 
 export default async function upload(data: FormData) {
 
@@ -16,9 +15,7 @@ export default async function upload(data: FormData) {
     const name = data.get('name') as string;
     const description = data.get('description') as string;
     const tagsString = data.get('tags') as string; // comma separated list of tags
-
     const tags = tagsString.split(',').map((tag) => tag.trim());
-
     const creationDate = new Date();
     const uuid = v4();
 
@@ -43,15 +40,18 @@ export default async function upload(data: FormData) {
 
     client?.close();
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    // prepare the file for upload
+    let fileBuffer = await file.arrayBuffer();
+    let stream = getStream(fileBuffer);
+    
+    // write to azure blob storage
+    let containerName = "web-file-storage";
+    let blobName = uuid;
+    // @ts-ignore
+    let blockBlobClient = new BlockBlobClient(process.env.AZURE_STORAGE_CONNECTION_STRING, containerName, blobName);
+    let uploadBlobResponse = await blockBlobClient.uploadStream(stream, fileBuffer.byteLength);
 
-    // write it to the filesystem in the public folder of the project.
-    const path = join(process.cwd(), 'public', uuid);
-    await writeFile(path, buffer);
-
-    console.log(`open ${path} to see the uploaded file`);
-
-    // reload the page to see the new file
-    redirect('/'); 
+    // reload the page to see the new file (wait for 1 second)
+    console.log("uploadBlobResponse", uploadBlobResponse);
+    redirect('/');
 }
